@@ -13,7 +13,7 @@ app.use(express.json())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 morgan.token('body', function (req) {
-  if (req.method === "POST") {
+  if (req.method === 'POST') {
     return JSON.stringify(req.body)
   } else {
     return ''
@@ -28,16 +28,17 @@ app.get('/api/persons', (req, res, next) => {
   Person.find({}).then(result => {
     res.json(result)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/info', (req, res, next) => {
   var now = new Date()
   Person.countDocuments().then(result => {
     res.send(
-      `<p>Phonebook has info for ${result} people</p><p>${now.toUTCString()}</p>`
+      `<p>Phonebook has info for ${result} people</p><p>${now.toLocaleString()}</p>`
     )
   })
+    .catch(error => next(error))
 })
 
 app.post('/api/persons', (request, response, next) => {
@@ -51,7 +52,7 @@ app.post('/api/persons', (request, response, next) => {
   person.save().then(saved => {
     response.json(saved)
   })
-  .catch(error => next(error))
+    .catch(error => next(error))
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
